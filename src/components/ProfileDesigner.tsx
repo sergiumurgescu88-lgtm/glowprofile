@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { ProfileData, TipItem, RuleItem, SocialLinkItem } from '../types';
+import { ProfileData, TipItem, RuleItem, SocialLinkItem, ProfileLayoutTemplate } from '../types';
 import { TEMPLATE_PRESETS, BACKGROUND_PRESETS } from '../data/mockData';
+import { PROFILE_TEMPLATES } from '../data/templatesData';
 import { DesignerPreview } from './DesignerPreview';
+import { TemplatesLibraryModal } from './TemplatesLibraryModal';
 import {
   Wand2,
   Download,
@@ -19,7 +21,11 @@ import {
   Check,
   Layers,
   Sliders,
-  Share2
+  Share2,
+  Zap,
+  Undo2,
+  Maximize2,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface ProfileDesignerProps {
@@ -35,6 +41,10 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'content' | 'design' | 'presets'>('content');
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [isLibraryModalOpen, setIsLibraryModalOpen] = useState<boolean>(false);
+  const [inlineCategory, setInlineCategory] = useState<string>('all');
+  const [toastNotification, setToastNotification] = useState<{ message: string; templateName: string } | null>(null);
+  const [previousProfile, setPreviousProfile] = useState<ProfileData | null>(null);
 
   // Random background generator (Step 2 in prompt)
   const handleRandomBackground = () => {
@@ -45,7 +55,48 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
     }));
   };
 
-  // Apply template preset
+  // Apply complete pre-built layout or style only
+  const handleApplyTemplateLayout = (template: ProfileLayoutTemplate, mode: 'full' | 'style' = 'full') => {
+    setPreviousProfile(profile);
+    if (mode === 'full') {
+      setProfile({
+        ...template.fullProfile,
+        targetPlatform: profile.targetPlatform || template.fullProfile.targetPlatform,
+      });
+      setToastNotification({
+        message: `Applied full "${template.name}" layout to canvas!`,
+        templateName: template.name,
+      });
+    } else {
+      setProfile((prev) => ({
+        ...prev,
+        ...template.styleOnly,
+      }));
+      setToastNotification({
+        message: `Applied theme & styling from "${template.name}"!`,
+        templateName: template.name,
+      });
+    }
+
+    setTimeout(() => {
+      setToastNotification((curr) => (curr?.templateName === template.name ? null : curr));
+    }, 5000);
+  };
+
+  // Revert template application
+  const handleUndoTemplate = () => {
+    if (previousProfile) {
+      setProfile(previousProfile);
+      setPreviousProfile(null);
+      setToastNotification({
+        message: 'Reverted canvas to previous state',
+        templateName: '',
+      });
+      setTimeout(() => setToastNotification(null), 3000);
+    }
+  };
+
+  // Legacy quick color preset applicator
   const handleApplyTemplate = (templateId: string) => {
     const template = TEMPLATE_PRESETS.find((t) => t.id === templateId);
     if (!template) return;
@@ -124,6 +175,20 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            {/* Templates Library button */}
+            <button
+              id="designer-open-templates-btn"
+              onClick={() => setIsLibraryModalOpen(true)}
+              className="px-3.5 py-2 text-xs font-semibold bg-gradient-to-r from-violet-600/25 to-fuchsia-600/25 hover:from-violet-600/40 hover:to-fuchsia-600/40 text-violet-200 rounded-xl border border-violet-500/50 flex items-center gap-2 transition-all active:scale-95 cursor-pointer shadow-md shadow-violet-900/20"
+              title="Browse 5 pre-built professional profile templates"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-violet-400 animate-pulse" />
+              <span>Templates Library</span>
+              <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold bg-violet-500 text-white">
+                5
+              </span>
+            </button>
+
             {/* Random Background button */}
             <button
               id="designer-random-bg-btn"
@@ -188,7 +253,10 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                Templates
+                <span>Templates</span>
+                <span className="text-[10px] bg-violet-500/30 text-violet-300 px-1.5 py-0.2 rounded-full font-bold">
+                  5
+                </span>
               </button>
             </div>
 
@@ -449,12 +517,12 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
                     )}
                   </div>
 
-                  {/* Rulta DMCA Protection Badge */}
+                  {/* GLOW Models Protection Badge */}
                   <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-800/80 flex items-center justify-between">
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-violet-400 flex items-center gap-1.5">
-                        <Shield className="w-3.5 h-3.5 text-violet-400" />
-                        Rulta DMCA Badge
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-pink-400 flex items-center gap-1.5">
+                        <Shield className="w-3.5 h-3.5 text-pink-400" />
+                        GLOW Models DMCA Shield
                       </h4>
                       <p className="text-[11px] text-slate-400">Deter pirate recorders and leak bots</p>
                     </div>
@@ -633,38 +701,152 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
                 </div>
               )}
 
-              {/* TAB 3: TEMPLATES */}
+              {/* TAB 3: TEMPLATES LIBRARY */}
               {activeTab === 'presets' && (
                 <div className="space-y-4">
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Click any pre-designed template to instantly adopt its color scheme, typography, and styling.
-                  </p>
-                  <div className="space-y-3">
-                    {TEMPLATE_PRESETS.map((tmpl) => (
+                  {/* Header with Explainer and Full Gallery button */}
+                  <div className="bg-gradient-to-r from-violet-950/40 via-slate-950/60 to-fuchsia-950/40 p-3.5 rounded-xl border border-violet-800/40 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-violet-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                        Pre-built Professional Layouts
+                      </span>
                       <button
-                        key={tmpl.id}
-                        onClick={() => handleApplyTemplate(tmpl.id)}
-                        className="w-full p-3.5 rounded-xl border border-slate-700/80 hover:border-violet-500/80 bg-slate-950/40 flex items-center justify-between transition-all group text-left"
+                        onClick={() => setIsLibraryModalOpen(true)}
+                        className="text-[11px] text-violet-400 hover:text-violet-300 font-semibold flex items-center gap-1 underline underline-offset-2 cursor-pointer"
                       >
-                        <div className="flex items-center gap-3">
-                          <div
-                            className="w-10 h-10 rounded-lg shadow-inner border border-white/10"
-                            style={{ background: tmpl.previewBg }}
-                          />
-                          <div>
-                            <div className="text-sm font-bold text-white group-hover:text-violet-300">
-                              {tmpl.name}
-                            </div>
-                            <div className="text-[11px] text-slate-400">
-                              Curated color harmony & styling
-                            </div>
-                          </div>
-                        </div>
-                        <span className="text-xs text-violet-400 font-semibold group-hover:translate-x-0.5 transition-transform">
-                          Apply →
-                        </span>
+                        <Maximize2 className="w-3 h-3" />
+                        Expanded Gallery
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      Click any layout to instantly adopt complete broadcaster setups: tailored tip menus, token goals, room rules, schedules, and custom color themes.
+                    </p>
+                  </div>
+
+                  {/* Category Filters */}
+                  <div className="flex flex-wrap gap-1">
+                    {[
+                      { id: 'all', label: 'All (5)' },
+                      { id: 'gaming', label: 'Gaming' },
+                      { id: 'luxury', label: 'VIP Luxury' },
+                      { id: 'cozy', label: 'Cozy Anime' },
+                      { id: 'party', label: 'Party' },
+                      { id: 'minimal', label: 'Minimal' },
+                    ].map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => setInlineCategory(cat.id)}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                          inlineCategory === cat.id
+                            ? 'bg-violet-600 text-white shadow-sm'
+                            : 'bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-800'
+                        }`}
+                      >
+                        {cat.label}
                       </button>
                     ))}
+                  </div>
+
+                  {/* Template Cards List */}
+                  <div className="space-y-3.5 pt-1">
+                    {PROFILE_TEMPLATES
+                      .filter((t) => inlineCategory === 'all' || t.category === inlineCategory)
+                      .map((tmpl) => {
+                        const isCurrentActive = profile.stageName === tmpl.fullProfile.stageName;
+
+                        return (
+                          <div
+                            key={tmpl.id}
+                            className={`rounded-xl border transition-all duration-200 overflow-hidden bg-slate-950/60 ${
+                              isCurrentActive
+                                ? 'border-violet-500 shadow-lg shadow-violet-500/10 ring-1 ring-violet-500/50'
+                                : 'border-slate-800/90 hover:border-slate-700'
+                            }`}
+                          >
+                            {/* Header Preview Banner */}
+                            <div
+                              className="h-24 p-3 relative flex flex-col justify-between overflow-hidden"
+                              style={{ background: tmpl.previewBg }}
+                            >
+                              <div className="absolute inset-0 bg-black/25 backdrop-blur-[0.5px]" />
+                              <div className="relative z-10 flex items-center justify-between">
+                                <span
+                                  className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider text-white shadow-sm"
+                                  style={{ backgroundColor: `${tmpl.accentColor}e6` }}
+                                >
+                                  {tmpl.badge}
+                                </span>
+                                {isCurrentActive && (
+                                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500 text-white flex items-center gap-1 shadow-md">
+                                    <Check className="w-2.5 h-2.5 stroke-[3]" /> Active on Canvas
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="relative z-10 flex items-center gap-2.5">
+                                <img
+                                  src={tmpl.fullProfile.avatarUrl}
+                                  alt={tmpl.fullProfile.stageName}
+                                  className="w-9 h-9 rounded-full object-cover border-2 shadow-md shrink-0"
+                                  style={{ borderColor: tmpl.accentColor }}
+                                />
+                                <div className="min-w-0">
+                                  <h5
+                                    className="text-xs font-black truncate"
+                                    style={{ color: tmpl.titleColor }}
+                                  >
+                                    {tmpl.fullProfile.stageName}
+                                  </h5>
+                                  <p className="text-[10px] text-slate-200/90 truncate">
+                                    {tmpl.categoryLabel} · {tmpl.tagline}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Card Body */}
+                            <div className="p-3.5 space-y-3">
+                              <p className="text-[11px] text-slate-300 leading-snug">
+                                {tmpl.description}
+                              </p>
+
+                              {/* Inclusion chips */}
+                              <div className="flex flex-wrap gap-1">
+                                {tmpl.highlights.map((h, i) => (
+                                  <span
+                                    key={i}
+                                    className="px-1.5 py-0.5 rounded text-[9px] font-medium bg-slate-900 border border-slate-800 text-slate-300"
+                                  >
+                                    ✓ {h}
+                                  </span>
+                                ))}
+                              </div>
+
+                              {/* Apply Buttons */}
+                              <div className="grid grid-cols-2 gap-2 pt-1">
+                                <button
+                                  onClick={() => handleApplyTemplateLayout(tmpl, 'full')}
+                                  className="py-1.5 px-2.5 text-xs font-bold text-white bg-violet-600 hover:bg-violet-500 rounded-lg shadow-sm flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer"
+                                  title="Apply complete profile content, tip menu, rules and styling"
+                                >
+                                  <Zap className="w-3 h-3 text-amber-300" />
+                                  <span>Apply Layout</span>
+                                </button>
+
+                                <button
+                                  onClick={() => handleApplyTemplateLayout(tmpl, 'style')}
+                                  className="py-1.5 px-2.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg flex items-center justify-center gap-1 transition-all active:scale-95 cursor-pointer"
+                                  title="Adopt colors and styles without overwriting your custom text"
+                                >
+                                  <Palette className="w-3 h-3 text-pink-400" />
+                                  <span>Theme Only</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               )}
@@ -674,6 +856,26 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
 
           {/* RIGHT: Live Preview Canvas (7 cols) */}
           <div className="lg:col-span-7 sticky top-24">
+            {/* Toast feedback when a template is applied */}
+            {toastNotification && (
+              <div className="mb-3 bg-violet-950/90 border border-violet-500/80 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="flex items-center gap-2 text-xs">
+                  <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span className="font-medium">{toastNotification.message}</span>
+                </div>
+                {previousProfile && (
+                  <button
+                    onClick={handleUndoTemplate}
+                    className="px-2.5 py-1 text-xs font-bold bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg flex items-center gap-1 text-white transition-colors cursor-pointer"
+                    title="Undo template application"
+                  >
+                    <Undo2 className="w-3 h-3" />
+                    <span>Undo</span>
+                  </button>
+                )}
+              </div>
+            )}
+
             <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-2xl">
               
               {/* Preview Header Bar */}
@@ -730,6 +932,15 @@ export const ProfileDesigner: React.FC<ProfileDesignerProps> = ({
         </div>
 
       </div>
+
+      {/* Templates Library Modal */}
+      <TemplatesLibraryModal
+        isOpen={isLibraryModalOpen}
+        onClose={() => setIsLibraryModalOpen(false)}
+        onApplyTemplate={handleApplyTemplateLayout}
+        currentProfile={profile}
+      />
     </section>
   );
 };
+

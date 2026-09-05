@@ -269,14 +269,14 @@ export const LeakScannerModal: React.FC<LeakScannerModalProps> = ({
                 ))}
               </div>
 
-              {/* How Rulta Protects */}
+              {/* How Glow Models Protects */}
               <div className="p-4 rounded-xl bg-violet-950/20 border border-violet-800/30 space-y-2">
                 <h5 className="text-xs font-bold text-violet-300 flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-violet-400" />
-                  Continuous 24/7 Protection
+                  Fortăreață Digitală · 24/7 Protection
                 </h5>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Rulta automated crawlers monitor Google, Bing, Telegram, and tube sites around the clock, issuing DMCA notices within hours to keep your content secure.
+                  Glow Models automated crawlers monitor Google, Bing, Telegram, and tube sites around the clock, issuing DMCA notices within hours to keep your content secure.
                 </p>
               </div>
 

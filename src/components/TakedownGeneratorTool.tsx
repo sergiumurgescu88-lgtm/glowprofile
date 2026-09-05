@@ -86,7 +86,7 @@ I swear, under penalty of perjury under the laws of the United States and the Be
 5. CONTACT INFORMATION:
 Copyright Owner: ${copyrightOwner}
 Email: ${ownerEmail}
-Agent Platform: Rulta DMCA Protection Services (rulta.com)
+Agent Platform: Glow Models Legal & Protection Services (glowmodels.com)
 
 ELECTRONIC SIGNATURE:
 /s/ ${copyrightOwner}

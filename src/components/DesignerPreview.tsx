@@ -332,7 +332,7 @@ export const DesignerPreview = forwardRef<HTMLDivElement, DesignerPreviewProps>(
         </div>
       )}
 
-      {/* 8. Rulta DMCA Protection Badge */}
+      {/* 8. GLOW Models DMCA Protection Badge */}
       {profile.showDmcaBadge && (
         <div
           className="p-3 border flex items-center justify-between gap-3 text-xs"
@@ -353,8 +353,8 @@ export const DesignerPreview = forwardRef<HTMLDivElement, DesignerPreviewProps>(
               </span>
             </div>
           </div>
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">
-            rulta.com
+          <span className="text-[10px] font-bold text-pink-400 uppercase tracking-widest shrink-0">
+            GLOW MODELS
           </span>
         </div>
       )}

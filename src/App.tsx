@@ -4,6 +4,9 @@ import { DEFAULT_PROFILE } from './data/mockData';
 import { Navbar } from './components/Navbar';
 import { ToolsNavigationTabs } from './components/ToolsNavigationTabs';
 import { Hero } from './components/Hero';
+import { WhyGlowSection } from './components/WhyGlowSection';
+import { GlowBbyAiDemo } from './components/GlowBbyAiDemo';
+import { ApplyGlowForm } from './components/ApplyGlowForm';
 import { ProfileDesigner } from './components/ProfileDesigner';
 import { DmcaBadgesTool } from './components/DmcaBadgesTool';
 import { ContentSafetyQuizTool } from './components/ContentSafetyQuizTool';
@@ -27,7 +30,7 @@ export default function App() {
   // Load initial profile from localStorage or fallback to default
   const [profile, setProfile] = useState<ProfileData>(() => {
     try {
-      const saved = localStorage.getItem('rulta_cam_profile');
+      const saved = localStorage.getItem('glow_cam_profile') || localStorage.getItem('rulta_cam_profile');
       if (saved) {
         return JSON.parse(saved);
       }
@@ -51,7 +54,7 @@ export default function App() {
   // Auto-save to localStorage whenever profile changes
   useEffect(() => {
     try {
-      localStorage.setItem('rulta_cam_profile', JSON.stringify(profile));
+      localStorage.setItem('glow_cam_profile', JSON.stringify(profile));
     } catch (e) {
       console.error('Error saving profile:', e);
     }
@@ -87,6 +90,22 @@ export default function App() {
     handleSelectTool('designer');
   };
 
+  // Smooth scroll to application form
+  const handleApplyClick = () => {
+    const el = document.getElementById('apply-form');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Smooth scroll to AI demo
+  const handleOpenAiDemo = () => {
+    const el = document.getElementById('glowbby-ai');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Open scanner with a specific handle
   const handleOpenScannerWithQuery = (query: string) => {
     setScannerQuery(query);
@@ -106,8 +125,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-slate-100 selection:bg-violet-500 selection:text-white font-sans antialiased">
-      {/* 1. Rulta Sticky Navigation */}
+    <div className="min-h-screen bg-[#0B0F19] text-slate-100 selection:bg-pink-500 selection:text-white font-sans antialiased">
+      {/* 1. Glow Sticky Navigation */}
       <Navbar
         onOpenGift={() => setIsGiftOpen(true)}
         onOpenScanner={() => {
@@ -117,6 +136,8 @@ export default function App() {
         onStartDesigning={scrollToDesigner}
         onSelectTool={handleSelectTool}
         onSelectGuide={(guide) => setSelectedGuide(guide)}
+        onOpenAiDemo={handleOpenAiDemo}
+        onApplyClick={handleApplyClick}
       />
 
       {/* 2. Interactive Tools Quick-Switcher Tabs Bar */}
@@ -126,32 +147,37 @@ export default function App() {
       />
 
       <main>
-        {/* 3. Hero Section */}
+        {/* 3. Glow Models Hero Section */}
         <Hero
           onStartDesigning={scrollToDesigner}
           onOpenScanner={() => {
             setScannerQuery(profile.stageName);
             setIsScannerOpen(true);
           }}
+          onApplyClick={handleApplyClick}
+          onOpenAiDemo={handleOpenAiDemo}
         />
 
-        {/* 4. Tool 1: Interactive Profile Designer Tool */}
+        {/* 4. De Ce Glow Models? - 6 Key Pillars */}
+        <WhyGlowSection onApplyClick={handleApplyClick} />
+
+        {/* 5. GlowBBY AI Intelligence Live Interactive Demo */}
+        <GlowBbyAiDemo />
+
+        {/* 6. Tool 1: Interactive Profile Designer Tool */}
         <ProfileDesigner
           profile={profile}
           setProfile={setProfile}
           onFinalize={() => setIsExportOpen(true)}
         />
 
-        {/* 5. Tool 2: Free Piracy & Leak Scanner Section */}
+        {/* 7. Tool 2: Free Piracy & Leak Scanner Section */}
         <LeakScanner onOpenScannerWithQuery={handleOpenScannerWithQuery} />
 
-        {/* 6. Tool 3: Official DMCA Badges Generator Tool */}
-        <DmcaBadgesTool
-          stageName={profile.stageName}
-          onOpenDesigner={scrollToDesigner}
-        />
+        {/* 8. Tool 3: Official DMCA Badges Generator Tool */}
+        <DmcaBadgesTool />
 
-        {/* 7. Tool 4: Content Safety & Piracy Risk Audit Quiz */}
+        {/* 9. Tool 4: Content Safety & Piracy Risk Audit Quiz */}
         <ContentSafetyQuizTool
           onOpenScanner={() => {
             setScannerQuery(profile.stageName);
@@ -159,38 +185,41 @@ export default function App() {
           }}
         />
 
-        {/* 8. Tool 5: Floating Protection & Social Icons Generator */}
+        {/* 10. Tool 5: Floating Protection & Social Icons Generator */}
         <FloatingIconsTool />
 
-        {/* 9. Tool 6: Official DMCA Takedown Notice & Template Generator */}
+        {/* 11. Tool 6: Official DMCA Takedown Notice & Template Generator */}
         <TakedownGeneratorTool
           initialInfringingUrl={takedownUrl}
           initialStageName={profile.stageName}
         />
 
-        {/* 10. Tool 7: US Copyright Office & Statutory Fee Assistant */}
+        {/* 12. Tool 7: US Copyright Office & Statutory Fee Assistant */}
         <CopyrightRegistrationTool />
 
-        {/* 11. Step-by-Step Guide ("How to Create a Stunning Chaturbate Profile") */}
+        {/* 13. Step-by-Step Guide ("How to Create a Stunning Cam Profile") */}
         <StepGuide onStartDesigning={scrollToDesigner} />
 
-        {/* 12. Tips for a Great Profile */}
+        {/* 14. Tips for a Great Profile */}
         <TipsSection />
 
-        {/* 13. Supported Platforms (Chaturbate, MFC, Bongacams, Stripchat, Cam4) */}
+        {/* 15. Supported Platforms (Chaturbate, MFC, Bongacams, Stripchat, Cam4) */}
         <PlatformsSection onSelectPlatform={handleSelectPlatform} />
 
-        {/* 14. Frequently Asked Questions Accordion */}
+        {/* 16. Frequently Asked Questions Accordion */}
         <FaqSection />
 
-        {/* 15. Why Use a Profile Designer? + Benefits + Attract More Viewers */}
+        {/* 17. Why Use a Profile Designer? + Benefits + Attract More Viewers */}
         <WhyUseSection />
 
-        {/* 16. Final Call to Action Banner ("Ready to stand out?") */}
-        <CtaBanner onStartDesigning={scrollToDesigner} />
+        {/* 18. Alătură-te Echipei Glow Models - Application Form with 100% Confidentiality */}
+        <ApplyGlowForm />
+
+        {/* 19. Final Call to Action Banner ("Ready to stand out?") */}
+        <CtaBanner onStartDesigning={handleApplyClick} />
       </main>
 
-      {/* 17. Complete Rulta Official Footer */}
+      {/* 20. Glow Models Official Footer */}
       <Footer
         onSelectTool={handleSelectTool}
         onSelectGuide={(guide) => setSelectedGuide(guide)}

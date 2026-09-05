@@ -70,9 +70,27 @@ export interface ProfileData {
   dmcaBadgeText: string;
 }
 
+export interface ProfileLayoutTemplate {
+  id: string;
+  name: string;
+  category: 'gaming' | 'luxury' | 'cozy' | 'party' | 'minimal';
+  categoryLabel: string;
+  tagline: string;
+  description: string;
+  previewBg: string;
+  badge: string;
+  accentColor: string;
+  titleColor: string;
+  fontFamily: 'sans' | 'serif' | 'display' | 'mono';
+  highlights: string[];
+  fullProfile: ProfileData;
+  styleOnly: Partial<ProfileData>;
+}
+
 export interface TemplatePreset {
   id: string;
   name: string;
   previewBg: string;
   data: Partial<ProfileData>;
 }
+

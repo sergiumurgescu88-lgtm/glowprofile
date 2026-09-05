@@ -17,7 +17,7 @@ export const FloatingIconsTool: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const [icons, setIcons] = useState<FloatingIconItem[]>([
-    { id: '1', name: 'DMCA Protected', url: 'https://www.rulta.com', color: '#8b5cf6', iconType: 'shield', enabled: true },
+    { id: '1', name: 'DMCA Protected', url: 'https://glowmodels.com', color: '#ec4899', iconType: 'shield', enabled: true },
     { id: '2', name: 'Live Stream Room', url: 'https://chaturbate.com', color: '#f59e0b', iconType: 'chaturbate', enabled: true },
     { id: '3', name: 'Official OnlyFans', url: 'https://onlyfans.com', color: '#00aff0', iconType: 'onlyfans', enabled: true },
     { id: '4', name: 'Follow on X / Twitter', url: 'https://twitter.com', color: '#ffffff', iconType: 'twitter', enabled: true },
@@ -34,15 +34,15 @@ export const FloatingIconsTool: React.FC = () => {
 
   const activeIcons = icons.filter((i) => i.enabled);
 
-  const embedScript = `<!-- Rulta Official Floating Shield & Social Hub -->
-<div id="rulta-floating-widget" style="position:fixed; ${
+  const embedScript = `<!-- GLOW Models Official Floating Shield & Social Hub -->
+<div id="glow-floating-widget" style="position:fixed; ${
     position.includes('bottom') ? 'bottom:24px' : 'top:24px'
   }; ${
     position.includes('right') ? 'right:24px' : 'left:24px'
   }; z-index:99999; font-family:system-ui, sans-serif;">
-  <a href="https://www.rulta.com" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; padding:10px 16px; background:#0f172a; border:1px solid #8b5cf6; border-radius:30px; box-shadow:0 8px 24px rgba(139,92,246,0.3); color:#fff; text-decoration:none; font-size:12px; font-weight:700;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    <span>DMCA Protected</span>
+  <a href="https://glowmodels.com" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; padding:10px 16px; background:#0f172a; border:1px solid #ec4899; border-radius:30px; box-shadow:0 8px 24px rgba(236,72,153,0.3); color:#fff; text-decoration:none; font-size:12px; font-weight:700;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <span>DMCA Protected · GLOW</span>
   </a>
 </div>`;
 
@@ -114,7 +114,7 @@ export const FloatingIconsTool: React.FC = () => {
               </label>
               <div className="grid grid-cols-4 gap-2">
                 {[
-                  { id: 'violet', label: 'Rulta Violet', color: 'bg-violet-600' },
+                  { id: 'violet', label: 'Glow Violet', color: 'bg-violet-600' },
                   { id: 'emerald', label: 'Cyber Emerald', color: 'bg-emerald-600' },
                   { id: 'rose', label: 'Neon Pink', color: 'bg-rose-600' },
                   { id: 'cyber', label: 'Deep Blue', color: 'bg-cyan-600' },

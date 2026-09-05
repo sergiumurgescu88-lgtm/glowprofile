@@ -28,7 +28,7 @@ const GUIDE_CONTENT: Record<
     statutoryRule: 'Title 17 United States Code Section 512(c)(3) requires 6 elements for an enforceable notice.',
     actionPlan: [
       'Locate the exact URLs where your unauthorized media is being displayed or downloaded.',
-      'Use the Rulta DMCA Takedown Generator to draft a compliant notice.',
+      'Use the Glow Models DMCA Takedown Generator to draft a compliant notice.',
       'Send to the designated agent listed in the platform terms or US Copyright Office directory.',
     ],
   },
@@ -57,7 +57,7 @@ const GUIDE_CONTENT: Record<
     ],
     statutoryRule: 'Performers hold exclusive audiovisual broadcasting and distribution rights.',
     actionPlan: [
-      'Add a Rulta DMCA Deterrence Badge to your Chaturbate / MFC bio.',
+      'Add a Glow Models DMCA Deterrence Badge to your Chaturbate / MFC bio.',
       'Run regular reverse image and keyword scans on your broadcast handle.',
       'File automated DMCA de-indexing notices immediately upon leak discovery.',
     ],
@@ -87,7 +87,7 @@ const GUIDE_CONTENT: Record<
     statutoryRule: 'Google Legal Removal Protocol 17 U.S.C. § 512(d).',
     actionPlan: [
       'Collect all Google search result URLs showing stolen previews or thumbnails.',
-      'Submit via Google Search Console Copyright Removal or Rulta automated de-indexing.',
+      'Submit via Google Search Console Copyright Removal or Glow Models automated de-indexing.',
     ],
   },
 };
@@ -127,7 +127,7 @@ export const DmcaGuideModal: React.FC<DmcaGuideModalProps> = ({
             </div>
             <div>
               <h3 className="text-base font-bold text-white">{guideTitle}</h3>
-              <p className="text-[11px] text-slate-400">Official Rulta DMCA & IP Legal Resource</p>
+              <p className="text-[11px] text-slate-400">Official Glow Models DMCA & IP Legal Resource</p>
             </div>
           </div>
           <button

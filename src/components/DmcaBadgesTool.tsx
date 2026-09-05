@@ -5,8 +5,8 @@ import confetti from 'canvas-confetti';
 export const DmcaBadgesTool: React.FC = () => {
   const [badgeStyle, setBadgeStyle] = useState<'shield' | 'pill' | 'metallic' | 'compact' | 'cyber'>('shield');
   const [badgeColor, setBadgeColor] = useState<'violet' | 'emerald' | 'amber' | 'ruby' | 'cyan' | 'slate'>('violet');
-  const [creatorId, setCreatorId] = useState('RL-84920');
-  const [protectText, setProtectText] = useState('PROTECTED BY RULTA DMCA');
+  const [creatorId, setCreatorId] = useState('GLOW-84920');
+  const [protectText, setProtectText] = useState('PROTECTED BY GLOW MODELS');
   const [showId, setShowId] = useState(true);
   const [copiedType, setCopiedType] = useState<'html' | 'markdown' | 'bbcode' | null>(null);
 
@@ -57,14 +57,14 @@ export const DmcaBadgesTool: React.FC = () => {
 
   const currentTheme = colors[badgeColor];
 
-  const verificationUrl = `https://www.rulta.com/protection-status/${creatorId}`;
-  const badgeImageUrl = `https://cdn.rulta.com/badges/v2/${badgeStyle}-${badgeColor}-${creatorId}.svg`;
+  const verificationUrl = `https://glowmodels.com/protection-status/${creatorId}`;
+  const badgeImageUrl = `https://cdn.glowmodels.com/badges/v2/${badgeStyle}-${badgeColor}-${creatorId}.svg`;
 
-  const htmlEmbed = `<a href="${verificationUrl}" title="Protected by Rulta DMCA System" target="_blank" rel="noopener noreferrer">
-  <img src="${badgeImageUrl}" alt="Rulta Official DMCA Protected Badge" style="height:38px; width:auto; border:0;" />
+  const htmlEmbed = `<a href="${verificationUrl}" title="Protected by GLOW Models System" target="_blank" rel="noopener noreferrer">
+  <img src="${badgeImageUrl}" alt="GLOW Models Official Protected Badge" style="height:38px; width:auto; border:0;" />
 </a>`;
 
-  const markdownEmbed = `[![Rulta Protected](${badgeImageUrl})](${verificationUrl})`;
+  const markdownEmbed = `[![GLOW Protected](${badgeImageUrl})](${verificationUrl})`;
 
   const bbCodeEmbed = `[url=${verificationUrl}][img]${badgeImageUrl}[/img][/url]`;
 
@@ -89,14 +89,14 @@ export const DmcaBadgesTool: React.FC = () => {
   <path d="M23 13L15 17V24C15 29.5 18.4 34.6 23 36C27.6 34.6 31 29.5 31 24V17L23 13Z" fill="white"/>
   <path d="M21 24.5L19 22.5L17.5 24L21 27.5L28.5 20L27 18.5L21 24.5Z" fill="${currentTheme.accent}"/>
   <text x="52" y="22" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="800" letter-spacing="0.5">${protectText}</text>
-  <text x="52" y="35" fill="#94A3B8" font-family="monospace" font-size="10">OFFICIAL ID: ${creatorId} · RULTA.COM</text>
+  <text x="52" y="35" fill="#94A3B8" font-family="monospace" font-size="10">OFFICIAL ID: ${creatorId} · GLOWMODELS.COM</text>
 </svg>`;
 
     const blob = new Blob([svgContent], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `rulta-dmca-badge-${creatorId}.svg`;
+    link.download = `glow-dmca-badge-${creatorId}.svg`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -115,7 +115,7 @@ export const DmcaBadgesTool: React.FC = () => {
             Official DMCA Protection Badges
           </h2>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Deter content scrapers, tube bots, and forum screen-recorders before they leak your media. Displaying an authentic Rulta verified badge cuts unauthorized redistributions by up to 74%.
+            Deter content scrapers, tube bots, and forum screen-recorders before they leak your media. Displaying an authentic Glow Models verified badge cuts unauthorized redistributions by up to 74%.
           </p>
         </div>
 
@@ -192,7 +192,7 @@ export const DmcaBadgesTool: React.FC = () => {
                   value={protectText}
                   onChange={(e) => setProtectText(e.target.value)}
                   className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-violet-500 font-semibold"
-                  placeholder="PROTECTED BY RULTA DMCA"
+                  placeholder="PROTECTED BY GLOW MODELS"
                 />
               </div>
 
@@ -209,7 +209,7 @@ export const DmcaBadgesTool: React.FC = () => {
                     placeholder="RL-84920"
                   />
                   <button
-                    onClick={() => setCreatorId(`RL-${Math.floor(10000 + Math.random() * 90000)}`)}
+                    onClick={() => setCreatorId(`GLOW-${Math.floor(10000 + Math.random() * 90000)}`)}
                     className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-200 transition-colors cursor-pointer shrink-0"
                   >
                     Regenerate ID
@@ -274,7 +274,7 @@ export const DmcaBadgesTool: React.FC = () => {
                       <div className="text-[10px] font-mono text-slate-400 flex items-center gap-2">
                         <span>ID: <strong className="text-slate-300">{creatorId}</strong></span>
                         <span>·</span>
-                        <span className="text-violet-400 underline">verify at rulta.com</span>
+                        <span className="text-pink-400 underline">verify at glowmodels.com</span>
                       </div>
                     )}
                   </div>

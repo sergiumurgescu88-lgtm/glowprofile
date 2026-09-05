@@ -16,21 +16,21 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, profi
   if (!isOpen) return null;
 
   // Generated simulated hosted image URL for the broadcaster
-  const simulatedImageUrl = `https://cdn.rulta.com/profiles/${encodeURIComponent(
+  const simulatedImageUrl = `https://cdn.glowmodels.com/profiles/${encodeURIComponent(
     profile.stageName.toLowerCase().replace(/\s+/g, '-')
   )}-profile.png`;
 
   const htmlCode = `<div align="center">
-  <!-- Rulta Cam Profile Bio for ${profile.stageName} -->
-  <a href="https://www.rulta.com/tools/" target="_blank" rel="noopener noreferrer">
+  <!-- GLOW Models Cam Profile Bio for ${profile.stageName} -->
+  <a href="https://glowmodels.com" target="_blank" rel="noopener noreferrer">
     <img src="${simulatedImageUrl}" alt="${profile.stageName} Official Bio" style="max-width:100%; height:auto; border-radius:${profile.borderRadius}px; box-shadow:0 10px 25px rgba(0,0,0,0.5);" />
   </a>
   <br />
-  <small style="color:#8b5cf6; font-size:10px;">Protected by Rulta Automated DMCA</small>
+  <small style="color:#ec4899; font-size:10px;">Protected by GLOW Models Automated Shield</small>
 </div>`;
 
   const bbCode = `[center]
-[url=https://www.rulta.com/tools/]
+[url=https://glowmodels.com]
 [img]${simulatedImageUrl}[/img]
 [/url]
 [/center]`;
@@ -177,9 +177,9 @@ export const ExportModal: React.FC<ExportModalProps> = ({ isOpen, onClose, profi
         ctx.fill();
         ctx.stroke();
 
-        ctx.fillStyle = '#a78bfa';
+        ctx.fillStyle = '#f472b6';
         ctx.font = 'bold 15px sans-serif';
-        ctx.fillText('DMCA PROTECTED · rulta.com', 50, 946);
+        ctx.fillText('DMCA PROTECTED · glowmodels.com', 50, 946);
         ctx.fillStyle = '#94a3b8';
         ctx.font = '12px sans-serif';
         ctx.fillText('Content theft is automatically detected and removed', 380, 946);

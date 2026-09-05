@@ -69,7 +69,7 @@ export const DEFAULT_PROFILE: ProfileData = {
   ],
 
   showDmcaBadge: true,
-  dmcaBadgeText: 'Protected by Rulta Automated DMCA System · All Rights Reserved',
+  dmcaBadgeText: 'Protected by GLOW Models Automated Shield · All Rights Reserved',
 };
 
 export const BACKGROUND_PRESETS = [
@@ -166,7 +166,7 @@ export const FAQS = [
   {
     question: 'Is this profile designer free to use?',
     answer:
-      'Yes, 100% free with no hidden charges, watermarks, or subscription requirements. Rulta provides this tool for the creator community to help broadcasters build a professional presence and attract more viewers effortlessly.',
+      'Yes, 100% free with no hidden charges, watermarks, or subscription requirements. Glow Models provides this tool for creators to help broadcasters build a professional presence and attract more viewers effortlessly.',
   },
   {
     question: 'Do I need to know HTML to use this tool?',
